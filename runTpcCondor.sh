@@ -5,21 +5,26 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+if [ -z "$2" ]; then
+    echo "no daq type argument"
+    exit 1
+fi
+TYPE=$2
 echo "make file for run ${1}...."
-bash make_list.sh physics $1
+bash make_list.sh $TYPE $1
 if [ ! -f "tpc.list" ] || [ ! -f "gl1daq.list" ]; then
   echo "Error: tpc.list or gl1daq.list do not exist... Exit the script"
   exit 1
 fi
 
 cp tpc.list queue.list 
-echo "Done... files are crated for gl1daq.list, tpc.list. queue.list used for condor setup"
+echo "Done... files are created for gl1daq.list, tpc.list. queue.list used for condor setup"
 
 echo "....... now running GL1 ......"
 gl1filelist=`cat gl1daq.list` 
 for file in $gl1filelist
 do
-  root -l -q -b "AnaTpcBco.C(\"${file}\",0)"
+  root -l -q -b "AnaTpcBco.C(\"${file}\",0,\"$TYPE\")"
 done
 
 echo "....... now submitting condor for TPC ......"
@@ -34,7 +39,7 @@ cat <<EOL > "$TEMP_FILE"
 Executable  = condor_script.sh
 Universe    = vanilla
 Input       = /dev/null
-Arguments   = \$(filename1)
+Arguments   = \$(filename1) $TYPE
 Output      = $LOGDIR/\$(Cluster).\$(Process).out
 Error       = $LOGDIR/\$(Cluster).\$(Process).err
 Log         = $LOGDIR/\$(Cluster).\$(Process).log

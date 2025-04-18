@@ -12,5 +12,10 @@ Pickup a valid run number (the script checks if files exist but also make sure f
 The script will set the initial dir of condor to the current one. 
 Run the script below and wait until you get notifications through your email.
 ```
-bash runTpcCondor.sh <RunNumber>
+bash runTpcCondor.sh <RunNumber> <RunType>
+```
+
+for example
+```
+bash runTpcCondor.sh 61988 cosmics
 ```
