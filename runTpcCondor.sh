@@ -45,7 +45,6 @@ Error       = $LOGDIR/\$(Cluster).\$(Process).err
 Log         = $LOGDIR/\$(Cluster).\$(Process).log
 Initialdir  = $INITIALDIR
 PeriodicHold  = (NumJobStarts>=1 && JobStatus == 1)
-concurrency_limits=CONCURRENCY_LIMIT_DEFAULT:100
 job_lease_duration = 3600
 request_memory = 4096MB
 Queue filename1 from queue.list
